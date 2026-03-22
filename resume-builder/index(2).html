@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veteran Resume Builder — Prompts &amp; Circumstances</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amber:      #C4791A;
+  --amber-lite: #E8943A;
+  --dark:       #1C1C1C;
+  --med:        #555555;
+  --subtle:     #888888;
+  --field-bg:   #EEEAE4;
+  --prompt-bg:  #FAF6F0;
+  --page-bg:    #F0EBE1;
+  --rule:       #D8D3CB;
+  --red:        #BB0000;
+  --red-bg:     #FFF5F5;
+  --green:      #2D7A3A;
+  --white:      #FFFFFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--page-bg); color: var(--dark); font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; line-height: 1.7; }
+.page { max-width: 800px; margin: 0 auto; padding: 0 28px 100px; }
+
+/* MASTHEAD */
+.masthead { border-bottom: 2px solid var(--amber); padding: 28px 0 12px; margin-bottom: 44px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.masthead-name { font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); }
+.masthead-tag { font-size: 13px; font-style: italic; color: var(--subtle); }
+
+/* TITLE */
+.title-block { margin-bottom: 36px; }
+.title-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.title-block h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 50px); color: var(--dark); line-height: 1.1; }
+.title-block .subtitle { font-size: 17px; font-style: italic; color: var(--med); }
+
+/* HOW IT WORKS */
+.how-it-works { margin-bottom: 32px; }
+.how-it-works h2 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--dark); margin-bottom: 14px; }
+.how-it-works ol { list-style: none; counter-reset: steps; }
+.how-it-works li { counter-increment: steps; display: flex; gap: 12px; margin-bottom: 10px; font-size: 15px; color: var(--med); align-items: flex-start; }
+.how-it-works li::before { content: counter(steps) "."; color: var(--amber); font-weight: 600; min-width: 18px; padding-top: 1px; flex-shrink: 0; }
+
+/* CALLOUT */
+.callout { background: var(--field-bg); border-radius: 4px; padding: 18px 22px; margin-bottom: 32px; display: flex; gap: 10px; align-items: flex-start; }
+.callout-text { flex: 1; }
+.callout strong { display: block; font-size: 15px; color: var(--dark); margin-bottom: 5px; }
+.callout p { font-size: 14px; font-style: italic; color: var(--med); line-height: 1.6; }
+
+/* COLLAPSIBLE */
+.collapsible-wrap { margin-bottom: 36px; }
+.collapsible-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 14px 18px; background: var(--prompt-bg); border: 1.5px solid var(--amber); border-radius: 4px; user-select: none; transition: background 0.15s; }
+.collapsible-header:hover { background: #F3EDE3; }
+.collapsible-header.open { border-radius: 4px 4px 0 0; }
+.collapsible-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--amber); }
+.collapsible-sub { font-size: 13px; font-style: italic; color: var(--subtle); margin-left: 10px; }
+.collapsible-chevron { color: var(--amber); font-size: 16px; transition: transform 0.2s; flex-shrink: 0; margin-left: 12px; }
+.collapsible-chevron.open { transform: rotate(180deg); }
+.collapsible-body { display: none; border: 1.5px solid var(--amber); border-top: none; border-radius: 0 0 4px 4px; padding: 24px; background: var(--prompt-bg); }
+.collapsible-body.open { display: block; }
+
+/* VET ADVANTAGE */
+.advantage-section { margin-bottom: 24px; }
+.advantage-section:last-child { margin-bottom: 0; }
+.advantage-section h3 { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--dark); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+.advantage-section p { font-size: 14px; color: var(--med); line-height: 1.65; margin-bottom: 8px; }
+.advantage-section p:last-child { margin-bottom: 0; }
+.advantage-section strong { color: var(--dark); }
+.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 8px; margin: 12px 0; }
+.company-tag { background: var(--field-bg); border-radius: 3px; padding: 8px 11px; font-size: 13px; font-weight: 600; color: var(--dark); }
+.company-tag span { display: block; font-size: 11px; color: var(--subtle); font-style: italic; margin-top: 3px; font-weight: 400; }
+.advantage-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.advantage-link { font-size: 13px; color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber); transition: color 0.15s; }
+.advantage-link:hover { color: var(--amber-lite); border-bottom-color: var(--amber-lite); }
+
+/* ZONE DIVIDER */
+.zone-divider { border-top: 1px solid var(--rule); margin: 36px 0 28px; position: relative; }
+.zone-divider-label { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--page-bg); padding: 0 14px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); white-space: nowrap; }
+
+/* ACTION BARS */
+.action-bar { display: flex; gap: 10px; margin: 24px 0; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 11px 20px; border-radius: 3px; font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+.btn-primary { background: var(--amber); color: var(--white); }
+.btn-primary:hover { background: var(--amber-lite); }
+.btn-primary.copied { background: var(--green); }
+.btn-secondary { background: transparent; color: var(--amber); border: 2px solid var(--amber); }
+.btn-secondary:hover { background: var(--amber); color: var(--white); }
+.btn-sm { padding: 6px 12px; font-size: 13px; background: transparent; color: var(--amber); border: 1.5px solid var(--amber); border-radius: 3px; font-family: 'Source Serif 4', serif; cursor: pointer; transition: all 0.15s; font-weight: 600; }
+.btn-sm:hover { background: var(--amber); color: var(--white); }
+.btn-remove { padding: 3px 8px; font-size: 11px; background: transparent; color: var(--subtle); border: 1px solid var(--rule); border-radius: 3px; font-family: 'Source Serif 4', serif; cursor: pointer; transition: all 0.15s; }
+.btn-remove:hover { color: var(--red); border-color: var(--red); }
+.btn-delete { padding: 5px 11px; font-size: 12px; background: transparent; color: var(--subtle); border: 1px solid var(--rule); border-radius: 3px; font-family: 'Source Serif 4', serif; cursor: pointer; transition: all 0.15s; }
+.btn-delete:hover { color: var(--red); border-color: var(--red); }
+
+/* PROMPT */
+.prompt-wrapper { margin-bottom: 36px; }
+.prompt-toggle { display: flex; align-items: center; justify-content: space-between; background: var(--prompt-bg); border: 2px solid var(--amber); border-radius: 4px 4px 0 0; padding: 14px 20px; cursor: pointer; user-select: none; transition: background 0.15s; }
+.prompt-toggle:hover { background: #F3EDE3; }
+.prompt-toggle-left { display: flex; align-items: center; gap: 12px; }
+.prompt-toggle-label { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--amber); }
+.prompt-toggle-sub { font-size: 13px; font-style: italic; color: var(--subtle); }
+.prompt-chevron { color: var(--amber); font-size: 16px; transition: transform 0.2s; }
+.prompt-chevron.open { transform: rotate(180deg); }
+.prompt-body { display: none; background: var(--prompt-bg); border: 2px solid var(--amber); border-top: none; border-radius: 0 0 4px 4px; padding: 22px 26px; }
+.prompt-body.open { display: block; }
+.prompt-body p { font-size: 14px; color: var(--dark); margin-bottom: 10px; line-height: 1.65; }
+.prompt-body p:last-child { margin-bottom: 0; }
+
+/* SECTION HEADERS */
+.section-header { margin: 48px 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--amber); }
+.section-header-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.section-num { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--amber); letter-spacing: 0.1em; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--amber); }
+.section-descriptor { font-size: 14px; font-style: italic; color: var(--subtle); }
+
+/* INFO BUTTONS */
+.info-btn { background: none; border: 1.5px solid var(--amber); color: var(--amber); border-radius: 50%; width: 19px; height: 19px; font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, color 0.15s; font-style: italic; font-weight: 700; font-family: 'Playfair Display', serif; vertical-align: middle; margin-left: 5px; position: relative; top: -1px; }
+.info-btn:hover { background: var(--amber); color: var(--white); }
+
+/* FIELDS */
+.field { margin-bottom: 22px; }
+.field-label { font-size: 15px; font-weight: 600; color: var(--dark); line-height: 1.4; margin-bottom: 4px; display: block; }
+.field-hint { font-size: 13px; font-style: italic; color: var(--subtle); margin-bottom: 8px; display: block; line-height: 1.5; }
+input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; background: var(--field-bg); border: none; border-radius: 3px; padding: 10px 13px; font-family: 'Source Serif 4', Georgia, serif; font-size: 15px; color: var(--dark); outline: none; transition: box-shadow 0.15s; resize: none; }
+input:focus, textarea:focus { box-shadow: 0 0 0 2px var(--amber); }
+textarea { min-height: 85px; overflow: hidden; }
+textarea.tall { min-height: 120px; }
+textarea.taller { min-height: 160px; }
+
+/* FIELD ROWS */
+.field-row { display: grid; gap: 10px; margin-bottom: 10px; }
+.field-row.two { grid-template-columns: 1fr 1fr; }
+.field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+.sub-label { font-size: 12px; color: var(--subtle); margin-bottom: 4px; display: block; font-style: italic; }
+@media (max-width: 560px) { .field-row.two, .field-row.three { grid-template-columns: 1fr; } }
+
+/* REPEAT BLOCKS */
+.repeat-block { background: var(--field-bg); border-radius: 4px; padding: 14px 16px; margin-bottom: 8px; }
+.repeat-block-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.repeat-block-num { font-size: 12px; color: var(--subtle); font-style: italic; }
+.repeat-block input, .repeat-block textarea { background: var(--white); }
+.add-another-row { margin-top: 6px; }
+
+/* RESUME TYPE */
+.resume-type-wrap { display: flex; flex-direction: column; gap: 8px; }
+.resume-type-opt { display: flex; align-items: center; gap: 12px; background: var(--field-bg); border-radius: 3px; padding: 11px 14px; flex-wrap: wrap; }
+.resume-type-opt.deleted { display: none; }
+.resume-type-label { font-size: 15px; font-weight: 600; color: var(--dark); min-width: 120px; }
+.resume-type-desc { font-size: 13px; font-style: italic; color: var(--subtle); flex: 1; }
+
+/* OPSEC */
+.opsec-warning { background: var(--red-bg); border: 2px solid var(--red); border-radius: 4px; padding: 18px 22px; margin: 24px 0; }
+.opsec-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.opsec-warning p { font-size: 14px; color: var(--red); line-height: 1.6; margin-bottom: 6px; }
+.opsec-warning p:last-child { margin-bottom: 0; }
+
+/* CLEARANCE */
+.clearance-opts { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.clearance-opt { display: flex; align-items: center; gap: 9px; font-size: 15px; color: var(--dark); cursor: pointer; }
+.clearance-opt input[type="radio"] { accent-color: var(--amber); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+
+/* TOOLTIP */
+.tip-overlay { display: none; position: fixed; inset: 0; z-index: 200; }
+.tip-overlay.active { display: block; }
+.tip-bubble { display: none; position: fixed; background: var(--dark); color: #F0EDE8; border-radius: 6px; padding: 15px 18px; max-width: 340px; font-size: 14px; line-height: 1.65; z-index: 201; box-shadow: 0 8px 28px rgba(0,0,0,0.3); pointer-events: none; }
+.tip-bubble::before { content: ''; position: absolute; border: 6px solid transparent; border-bottom-color: var(--dark); top: -12px; left: 18px; }
+.tip-bubble.flip::before { border-bottom-color: transparent; border-top-color: var(--dark); top: auto; bottom: -12px; }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--rule); margin-top: 56px; padding-top: 26px; text-align: center; }
+.footer-free { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--amber); margin-bottom: 7px; }
+.footer p { font-size: 13px; font-style: italic; color: var(--subtle); margin-bottom: 4px; }
+.footer a { color: var(--subtle); }
+.footer a:hover { color: var(--amber); }
+
+/* PRINT */
+@media print {
+  .zone-one, .action-bar, .masthead, .prompt-toggle, .info-btn,
+  .btn-sm, .btn-remove, .btn-delete, .add-another-row { display: none !important; }
+  .prompt-body { display: block !important; }
+  .repeat-block { background: white; border: 1px solid #ccc; }
+  body { background: white; font-size: 12px; }
+  .page { max-width: 100%; padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ═══════════════════════ ZONE ONE ═══════════════════════ -->
+<div class="zone-one">
+
+  <div class="masthead">
+    <span class="masthead-name">Prompts &amp; Circumstances</span>
+    <span class="masthead-tag">Practical knowledge for people who'd rather figure it out</span>
+  </div>
+
+  <div class="title-block">
+    <div class="title-row">
+      <h1>Veteran Resume Builder</h1>
+      <button class="info-btn" data-tip="title">i</button>
+    </div>
+    <p class="subtitle">Fill this out. Paste it into any AI. Get a resume that actually sounds like you.</p>
+  </div>
+
+  <div class="how-it-works">
+    <h2>How it works</h2>
+    <ol>
+      <li>Scroll down and fill out the information, from Contact Info through the end of the page. You don't have to fill any of it out if you don't want to, but the way AI works is — the more info you give, the more accurate the resume will be. Don't put anything in here you're uncomfortable putting into an LLM. As simple as that.</li>
+      <li>Don't be worried about overwriting or underwriting — the whole form is an exercise in efficiency. Put as much info in there as you want. Or, download the questions and structure so you can use them to make your own version that works for you. That's totally cool.</li>
+      <li>When you get to the bottom of the page, hit <strong>Copy to Clipboard</strong>. It grabs the prompt and everything you filled out in one go. Paste it into the LLM of your choice.</li>
+      <li>Wait a few seconds. Do some push ups.</li>
+      <li>Your LLM will give you a full resume in the format of your choice, ready for download and ready for the job market. Use it as much as you want. If you use it once and it sucks, let me know. I'll try to make it better.</li>
+    </ol>
+  </div>
+
+  <div class="callout">
+    <div class="callout-text">
+      <strong>Fill out what you've got.</strong>
+      <p>This form exists to help you, not to audit you. Skip any section that doesn't apply. Leave fields blank if you're not sure. Answer in fragments, bullet points, or full sentences — whatever comes naturally. The AI will sort it out.</p>
+    </div>
+    <button class="info-btn" data-tip="callout">i</button>
+  </div>
+
+  <!-- VETERAN ADVANTAGE -->
+  <div class="collapsible-wrap">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div>
+        <span class="collapsible-title">Before You Start: Know Your Advantages</span>
+        <span class="collapsible-sub">Veteran's preference &amp; companies actively hiring vets</span>
+      </div>
+      <span class="collapsible-chevron">▾</span>
+    </div>
+    <div class="collapsible-body">
+
+      <div class="advantage-section">
+        <h3>Veteran's Preference — Federal Jobs</h3>
+        <p>If you're applying to federal jobs, veteran's preference is real and it matters. Eligible veterans get <strong>5 or 10 points added to their score</strong> in the competitive hiring process. If you have a service-connected disability of 30% or more, you can be appointed to federal positions <strong>noncompetitively</strong> — meaning you don't have to compete with the general public at all.</p>
+        <p>The short version: honorable discharge gets you in the door with preference. Disabled veterans get even more. It's not a guarantee of a job, but it's a real thumb on the scale — and most veterans don't use it to its full potential because they don't know how it works.</p>
+        <p><strong>Key things to know:</strong> It applies to competitive announcements on USAJOBS, not internal promotions. Retired officers above Major/Lt. Commander are generally not eligible unless disabled. Guard and Reserve members on training duty only don't qualify. When you apply on USAJOBS, claim your preference — it doesn't happen automatically.</p>
+        <div class="advantage-links">
+          <a class="advantage-link" href="https://www.opm.gov/fedshirevets/veteran-job-seekers/vets/" target="_blank">OPM — Official Preference Guide</a>
+          <a class="advantage-link" href="https://www.usajobs.gov" target="_blank">USAJOBS.gov</a>
+          <a class="advantage-link" href="https://www.moaa.org/content/benefits-and-discounts/transition-and-careers/job-seeker-tools-and-resources/moaas-federal-job-resources/veterans-preference-in-federal-hiring2/" target="_blank">MOAA — Detailed Breakdown</a>
+        </div>
+      </div>
+
+      <div class="advantage-section">
+        <h3>Private Sector Companies With Active Veteran Programs</h3>
+        <p>These aren't companies that slap a flag on their careers page in November. These are organizations with real programs — dedicated recruiters, ERGs, transition pipelines, and hiring commitments. If you're applying to any of these, mention your service explicitly and look for their veteran-specific application pathways.</p>
+        <div class="company-grid">
+          <div class="company-tag">Salesforce<span>#1 Forbes Best Employers for Vets 2025</span></div>
+          <div class="company-tag">Microsoft<span>MSSA — 17-week tech training, 97% employment rate</span></div>
+          <div class="company-tag">Google<span>Career Certificates + Hiring Our Heroes</span></div>
+          <div class="company-tag">Lockheed Martin<span>~30% of hires are veterans</span></div>
+          <div class="company-tag">JPMorgan Chase<span>Co-founded Veteran Jobs Mission</span></div>
+          <div class="company-tag">Amazon / AWS<span>Military Apprenticeship, paid training</span></div>
+          <div class="company-tag">Fidelity Investments<span>#7 Forbes Best Employers for Vets 2025</span></div>
+          <div class="company-tag">Mayo Clinic<span>Military Friendly, annual vet career fair</span></div>
+          <div class="company-tag">AT&amp;T<span>Military Fellowship Program, active ERG</span></div>
+          <div class="company-tag">Booz Allen Hamilton<span>22%+ of workforce are veterans</span></div>
+        </div>
+        <p>For the most current list, check the HIRE Vets Medallion — the only federal-level award that recognizes companies specifically for veteran hiring, retention, and development. Updated annually.</p>
+        <div class="advantage-links">
+          <a class="advantage-link" href="https://www.hirevets.gov" target="_blank">HIRE Vets Medallion — hirevets.gov</a>
+          <a class="advantage-link" href="https://www.military.com/veteran-jobs/top-25-veteran-employers-2025.html" target="_blank">Military.com Top 25 for 2025</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /zone-one -->
+
+<!-- DIVIDER -->
+<div class="zone-divider">
+  <span class="zone-divider-label">Copy zone starts here</span>
+</div>
+
+<!-- TOP ACTION BAR -->
+<div class="action-bar">
+  <button class="btn btn-primary" onclick="copyToClipboard(this)">⎘&nbsp; Copy to Clipboard</button>
+  <button class="btn btn-secondary" onclick="window.print()">↓&nbsp; Download PDF</button>
+</div>
+
+<!-- ═══════════════════════ ZONE TWO ═══════════════════════ -->
+<div id="copy-zone">
+
+  <!-- PROMPT -->
+  <div class="prompt-wrapper">
+    <div class="prompt-toggle" onclick="togglePrompt(this)">
+      <div class="prompt-toggle-left">
+        <span class="prompt-toggle-label">THE PROMPT</span>
+        <span class="prompt-toggle-sub">The engine — click to expand</span>
+      </div>
+      <span class="prompt-chevron">▾</span>
+    </div>
+    <div class="prompt-body" id="prompt-body">
+      <p><strong>YOU ARE A PROFESSIONAL RESUME WRITER.</strong> You specialize in translating military experience into civilian careers. You understand that military service members are systematically undertrained in self-promotion and that the language of the military is largely invisible to civilian hiring managers. I have filled out the intake form below. Using everything in this document, write me a complete, tailored, ATS-optimized resume.</p>
+      <p><strong>IMPORTANT: Check whether I need a CIVILIAN or FEDERAL resume. These are different documents.</strong> A federal resume requires: full job titles with series and grade, detailed duty narratives, supervisor names and contact info fields, hours per week, salary history, and OF-306-ready format. A civilian resume: two pages maximum, impact-focused bullets, ATS-optimized, no federal formatting.</p>
+      <p><strong>FOLLOW THESE RULES EXACTLY:</strong></p>
+      <p>1. TRANSLATE, DON'T TRANSCRIBE. Convert every military term, acronym, rank, and job title into plain language. No exceptions.</p>
+      <p>2. LEAD WITH IMPACT. Every bullet starts with a strong action verb and ends with a measurable outcome or scope.</p>
+      <p>3. MATCH THE TARGET JOB. Use keywords from the field identified. If they listed words from a job posting, those words belong in the resume — naturally, not stuffed.</p>
+      <p>4. EXTRACT HIDDEN SKILLS. Military service produces skills invisible in official duty descriptions: operating under ambiguity, leading people older than you, making decisions without complete information, building trust across language and cultural barriers, functioning under sustained stress. Find these and name them.</p>
+      <p>5. SECURITY CLEARANCE. If the person checked yes for a clearance placeholder, write exactly this and nothing more: [CLEARANCE LEVEL] Security Clearance — [ISSUING AGENCY] — Active as of [DATE]. Leave every bracket item blank. Do not guess. Do not fill in any details.</p>
+      <p>6. USE THE NUMBERS. Use every specific figure provided — people supervised, equipment value, operational scope, tempo. Quantified bullets are significantly more effective.</p>
+      <p>7. HONEST GAPS. If the intake form reveals a gap in experience for the target job, flag it at the end with one practical suggestion.</p>
+      <p>8. TONE. Professional but direct. No hollow buzzwords. If it could appear on any resume, cut it.</p>
+      <p><em>Write the complete resume. Then on a separate page, give three bullet points explaining what civilian skills you emphasized and why.</em></p>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="field">
+    <label class="field-label">Contact Information <button class="info-btn" data-tip="contact">i</button></label>
+    <span class="field-hint">Name, phone, email, LinkedIn (if any), city and state. The AI needs this to build your resume header.</span>
+    <div class="field-row two">
+      <div><span class="sub-label">First Name</span><input type="text" id="c-first" placeholder="First"></div>
+      <div><span class="sub-label">Last Name</span><input type="text" id="c-last" placeholder="Last"></div>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">Phone</span><input type="tel" id="c-phone" placeholder="(555) 555-5555"></div>
+      <div><span class="sub-label">Email</span><input type="email" id="c-email" placeholder="email@example.com"></div>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">City</span><input type="text" id="c-city" placeholder="City"></div>
+      <div><span class="sub-label">State</span><input type="text" id="c-state" placeholder="State"></div>
+    </div>
+    <div><span class="sub-label">LinkedIn (optional)</span><input type="text" id="c-linkedin" placeholder="linkedin.com/in/yourprofile"></div>
+  </div>
+
+  <!-- SECTION 01 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">01</span>
+      <span class="section-title">Where You're Headed</span>
+      <button class="info-btn" data-tip="s01">i</button>
+    </div>
+    <div class="section-descriptor">The job you want and the words that will get you there. Fill this section first — it calibrates everything else.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What kind of work do you want to do, and why do you think you'd be good at it? <button class="info-btn" data-tip="work-why">i</button></label>
+    <span class="field-hint">Write this like you're talking to a civilian friend who genuinely wants to know. Not a recruiter. One honest paragraph.</span>
+    <textarea class="taller" placeholder="The kind of work, and why you..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What type of resume do you need? <button class="info-btn" data-tip="resume-type">i</button></label>
+    <span class="field-hint">Delete the option you don't want. Keep the one you do.</span>
+    <div class="resume-type-wrap">
+      <div class="resume-type-opt" id="opt-civilian">
+        <span class="resume-type-label">Civilian resume</span>
+        <span class="resume-type-desc">Standard format, two pages max, ATS-optimized, impact-focused bullets.</span>
+        <button class="btn-delete" onclick="document.getElementById('opt-civilian').classList.add('deleted')">Delete</button>
+      </div>
+      <div class="resume-type-opt" id="opt-federal">
+        <span class="resume-type-label">Federal resume</span>
+        <span class="resume-type-desc">Full duties narrative, hours per week, salary history, agency-ready format. Significantly longer.</span>
+        <button class="btn-delete" onclick="document.getElementById('opt-federal').classList.add('deleted')">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Job title or field you're targeting <button class="info-btn" data-tip="job-title">i</button></label>
+    <span class="field-hint">Be specific if you can. "Cybersecurity analyst" beats "something in tech."</span>
+    <input type="text" placeholder="e.g. Cybersecurity Analyst, Project Manager, Federal Law Enforcement...">
+  </div>
+
+  <div class="field">
+    <label class="field-label">Company or agency name <button class="info-btn" data-tip="company">i</button></label>
+    <span class="field-hint">Optional. Leave blank if you're keeping options open.</span>
+    <input type="text" placeholder="Optional...">
+  </div>
+
+  <div class="field">
+    <label class="field-label">Keywords from the job posting <button class="info-btn" data-tip="keywords">i</button></label>
+    <span class="field-hint">Paste 5–10 words or phrases straight from the posting. No posting yet? Describe what the job does.</span>
+    <textarea class="tall" placeholder="e.g. threat analysis, stakeholder communication, risk management..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Why this field? <button class="info-btn" data-tip="why-field">i</button></label>
+    <span class="field-hint">One or two sentences. What's pulling you toward this work?</span>
+    <textarea placeholder="What's drawing you to this work..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <!-- SECTION 02 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">02</span>
+      <span class="section-title">Your Service</span>
+      <button class="info-btn" data-tip="s02">i</button>
+    </div>
+    <div class="section-descriptor">The facts of your military career — branch, MOS, assignments.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Branch, component, and total years <button class="info-btn" data-tip="branch">i</button></label>
+    <div class="field-row three">
+      <div><span class="sub-label">Branch</span><input type="text" placeholder="e.g. Army"></div>
+      <div><span class="sub-label">Component</span><input type="text" placeholder="e.g. Active Duty"></div>
+      <div><span class="sub-label">Total Years</span><input type="text" placeholder="e.g. 8"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Rank at separation (or current rank) <button class="info-btn" data-tip="rank">i</button></label>
+    <input type="text" placeholder="e.g. Staff Sergeant (E-6)">
+  </div>
+
+  <div class="field">
+    <label class="field-label">MOS / AFSC / Rating / Designator <button class="info-btn" data-tip="mos">i</button></label>
+    <span class="field-hint">Code and full title. List all if you held more than one.</span>
+    <input type="text" placeholder="e.g. 35M, Human Intelligence Collector">
+  </div>
+
+  <div class="field">
+    <label class="field-label">Units and duty stations <button class="info-btn" data-tip="units">i</button></label>
+    <span class="field-hint">Most recent first. Unit name, location, and dates.</span>
+    <div id="units-container">
+      <div class="repeat-block">
+        <div class="repeat-block-header">
+          <span class="repeat-block-num">Entry 1</span>
+        </div>
+        <div class="field-row two">
+          <div><span class="sub-label">Unit Name</span><input type="text" placeholder="e.g. 1st SFAB"></div>
+          <div><span class="sub-label">Location</span><input type="text" placeholder="e.g. Fort Liberty, NC"></div>
+        </div>
+        <div class="field-row two">
+          <div><span class="sub-label">From</span><input type="text" placeholder="e.g. 2021"></div>
+          <div><span class="sub-label">To</span><input type="text" placeholder="e.g. 2023"></div>
+        </div>
+      </div>
+    </div>
+    <div class="add-another-row"><button class="btn-sm" onclick="addBlock('units-container', unitsTemplate)">+ Add Another Unit</button></div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Deployments or operational assignments <button class="info-btn" data-tip="deployments">i</button></label>
+    <span class="field-hint">Theater, general location, dates, and what the mission was. Unclassified descriptions only.</span>
+    <div id="deploy-container">
+      <div class="repeat-block">
+        <div class="repeat-block-header">
+          <span class="repeat-block-num">Entry 1</span>
+        </div>
+        <div class="field-row two">
+          <div><span class="sub-label">Theater / Location</span><input type="text" placeholder="e.g. OIR, Iraq"></div>
+          <div><span class="sub-label">Dates</span><input type="text" placeholder="e.g. 2019–2020"></div>
+        </div>
+        <div><span class="sub-label">Mission Description (unclassified)</span>
+        <textarea placeholder="Brief description of the mission..." oninput="autoResize(this)"></textarea></div>
+      </div>
+    </div>
+    <div class="add-another-row"><button class="btn-sm" onclick="addBlock('deploy-container', deployTemplate)">+ Add Another Deployment</button></div>
+  </div>
+
+  <!-- OPSEC -->
+  <div class="opsec-warning">
+    <div class="opsec-title">OPSEC Warning</div>
+    <p><strong>Do not enter your clearance level, granting agency, investigation details, polygraph history, or anything you'd find on an SF-86 into a public AI tool. Ever. For any reason.</strong></p>
+    <p>Just check the box below on whether you want to include a clearance placeholder. Fill in the actual details after you've downloaded the output to your local machine. We'll save its place. We're not going to mess up your OPSEC.</p>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Include a clearance placeholder? <button class="info-btn" data-tip="clearance">i</button></label>
+    <span class="field-hint">The AI will generate a bracketed placeholder. Fill in the real details offline after downloading.</span>
+    <div class="clearance-opts">
+      <label class="clearance-opt"><input type="radio" name="clearance" value="yes"> Yes — include a clearance placeholder</label>
+      <label class="clearance-opt"><input type="radio" name="clearance" value="no" checked> No — leave clearance off</label>
+    </div>
+  </div>
+
+  <!-- SECTION 03 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">03</span>
+      <span class="section-title">What You Actually Did</span>
+      <button class="info-btn" data-tip="s03">i</button>
+    </div>
+    <div class="section-descriptor">Not your official duty description — the real work, in your own words.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What did a normal week look like? <button class="info-btn" data-tip="normal-week">i</button></label>
+    <span class="field-hint">Walk through it like you're telling a friend. Who did you talk to? What problems did you solve? What decisions did you make?</span>
+    <textarea class="taller" placeholder="Walk me through a typical week..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What's something you handled that was technically outside your lane? <button class="info-btn" data-tip="outside-lane">i</button></label>
+    <span class="field-hint">The thing your sergeant or LT handed to you because you were the one who'd actually get it done.</span>
+    <textarea class="tall" placeholder="The thing that wasn't technically your job..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Who did you brief, advise, or report to? How often? <button class="info-btn" data-tip="brief">i</button></label>
+    <span class="field-hint">Include the level — squad, platoon, battalion, brigade, interagency, foreign partners, etc.</span>
+    <textarea class="tall" placeholder="Who was in the room and how often were you in it..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What would have broken without you specifically? <button class="info-btn" data-tip="broken">i</button></label>
+    <span class="field-hint">Don't be humble here. This is not the place for it.</span>
+    <textarea class="tall" placeholder="What were you actually holding together..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What did you teach or train others to do? <button class="info-btn" data-tip="train">i</button></label>
+    <span class="field-hint">Formal or informal. New soldiers, peers, partner forces, contractors — all of it counts.</span>
+    <textarea class="tall" placeholder="Training, mentorship, knowledge transfer..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What's a problem you solved that you're actually proud of? <button class="info-btn" data-tip="proud">i</button></label>
+    <span class="field-hint">One story. Situation, what you did, what happened because of it.</span>
+    <textarea class="taller" placeholder="Tell the story..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <!-- SECTION 04 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">04</span>
+      <span class="section-title">Numbers and Scale</span>
+      <button class="info-btn" data-tip="s04">i</button>
+    </div>
+    <div class="section-descriptor">Specific figures make your experience real to someone who wasn't there. Use them.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">How many people did you directly supervise or lead? <button class="info-btn" data-tip="direct-super">i</button></label>
+    <input type="text" placeholder="e.g. 12 soldiers directly">
+  </div>
+
+  <div class="field">
+    <label class="field-label">How many people did you indirectly supervise, train, or advise? <button class="info-btn" data-tip="indirect-super">i</button></label>
+    <input type="text" placeholder="e.g. 200+ across the battalion">
+  </div>
+
+  <div class="field">
+    <label class="field-label">Dollar value of equipment or resources you were responsible for <button class="info-btn" data-tip="equipment-value">i</button></label>
+    <span class="field-hint">Estimate if you don't have the exact number.</span>
+    <input type="text" placeholder="e.g. $2.4M in equipment accountability">
+  </div>
+
+  <div class="field">
+    <label class="field-label">Geographic or operational scope <button class="info-btn" data-tip="geo-scope">i</button></label>
+    <span class="field-hint">Area of operations, theater, number of locations, size of force you supported.</span>
+    <textarea placeholder="e.g. 3-province AO, 14 forward positions..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Operational tempo <button class="info-btn" data-tip="optempo">i</button></label>
+    <span class="field-hint">Example: "Supported 40+ intelligence requirements per quarter."</span>
+    <textarea placeholder="How much, how often, over what period..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Any other numbers that describe the scale of your work? <button class="info-btn" data-tip="other-numbers">i</button></label>
+    <textarea placeholder="Anything else quantifiable..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <!-- SECTION 05 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">05</span>
+      <span class="section-title">Training and Education</span>
+      <button class="info-btn" data-tip="s05">i</button>
+    </div>
+    <div class="section-descriptor">Schools, certifications, and credentials — military and civilian.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">MOS-specific schools and military training <button class="info-btn" data-tip="mos-schools">i</button></label>
+    <span class="field-hint">Include dates if you have them.</span>
+    <textarea class="tall" placeholder="School name, year completed..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Professional Military Education (PME) <button class="info-btn" data-tip="pme">i</button></label>
+    <span class="field-hint">BLC, ALC, SLC, CCC, ILE, etc.</span>
+    <textarea placeholder="PME courses completed or attended..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Civilian education <button class="info-btn" data-tip="civ-edu">i</button></label>
+    <span class="field-hint">Degree, institution, year completed or in progress. Some college without a degree still counts.</span>
+    <textarea placeholder="Degree, school, year..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Certifications <button class="info-btn" data-tip="certs">i</button></label>
+    <span class="field-hint">Security-related certs: list name only.</span>
+    <div id="certs-container">
+      <div class="repeat-block">
+        <div class="repeat-block-header"><span class="repeat-block-num">Entry 1</span></div>
+        <div class="field-row three">
+          <div><span class="sub-label">Certification Name</span><input type="text" placeholder="e.g. CompTIA Security+"></div>
+          <div><span class="sub-label">Issuing Body</span><input type="text" placeholder="e.g. CompTIA"></div>
+          <div><span class="sub-label">Year</span><input type="text" placeholder="e.g. 2022"></div>
+        </div>
+      </div>
+    </div>
+    <div class="add-another-row"><button class="btn-sm" onclick="addBlock('certs-container', certsTemplate)">+ Add Another Certification</button></div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Languages <button class="info-btn" data-tip="languages">i</button></label>
+    <span class="field-hint">Language, proficiency level, and how you used it.</span>
+    <div id="lang-container">
+      <div class="repeat-block">
+        <div class="repeat-block-header"><span class="repeat-block-num">Entry 1</span></div>
+        <div class="field-row three">
+          <div><span class="sub-label">Language</span><input type="text" placeholder="e.g. French"></div>
+          <div><span class="sub-label">Proficiency</span><input type="text" placeholder="e.g. Conversational"></div>
+          <div><span class="sub-label">How Used</span><input type="text" placeholder="e.g. Studied at DLI"></div>
+        </div>
+      </div>
+    </div>
+    <div class="add-another-row"><button class="btn-sm" onclick="addBlock('lang-container', langTemplate)">+ Add Another Language</button></div>
+  </div>
+
+  <!-- SECTION 06 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">06</span>
+      <span class="section-title">Recognition</span>
+      <button class="info-btn" data-tip="s06">i</button>
+    </div>
+    <div class="section-descriptor">Awards matter less than the citations. The specifics are what translate.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Significant awards <button class="info-btn" data-tip="awards">i</button></label>
+    <span class="field-hint">If you have more than five, prioritize the top five.</span>
+    <div id="awards-container">
+      <div class="repeat-block">
+        <div class="repeat-block-header"><span class="repeat-block-num">Entry 1</span></div>
+        <div class="field-row two">
+          <div><span class="sub-label">Award Name</span><input type="text" placeholder="e.g. Army Commendation Medal"></div>
+          <div><span class="sub-label">Date / Context</span><input type="text" placeholder="e.g. 2020, OIF deployment"></div>
+        </div>
+      </div>
+    </div>
+    <div class="add-another-row"><button class="btn-sm" onclick="addBlock('awards-container', awardsTemplate)">+ Add Another Award</button></div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What were you recognized for? <button class="info-btn" data-tip="recognized">i</button></label>
+    <span class="field-hint">Paste citation language if you have it. "For meritorious service" tells the AI nothing. Specifics tell it everything.</span>
+    <textarea class="taller" placeholder="Paste citation language or describe what you actually did to earn it..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Other recognition — formal or informal <button class="info-btn" data-tip="other-recog">i</button></label>
+    <span class="field-hint">Selected for special assignment, handpicked for a task force, chosen to train personnel above your rank.</span>
+    <textarea class="tall" placeholder="Any other recognition worth noting..." oninput="autoResize(this)"></textarea>
+  </div>
+
+  <!-- SECTION 07 -->
+  <div class="section-header">
+    <div class="section-header-top">
+      <span class="section-num">07</span>
+      <span class="section-title">Finishing Up</span>
+      <button class="info-btn" data-tip="s07">i</button>
+    </div>
+    <div class="section-descriptor">One last optional question. Answer it if it applies.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">What's your biggest concern about the transition? <button class="info-btn" data-tip="concern">i</button></label>
+    <span class="field-hint">Name it and the AI can address it.</span>
+    <textarea class="tall" placeholder="Optional — name your concern and the AI will address it..." oninput="autoResize(this)"></textarea>
+  </div>
+
+</div><!-- /copy-zone -->
+
+<!-- BOTTOM ACTION BAR -->
+<div class="action-bar">
+  <button class="btn btn-primary" onclick="copyToClipboard(this)">⎘&nbsp; Copy to Clipboard</button>
+  <button class="btn btn-secondary" onclick="window.print()">↓&nbsp; Download PDF</button>
+</div>
+
+<div class="footer">
+  <div class="footer-free">This tool is free. It will always be free.</div>
+  <p>If it helped you, pass it to someone who needs it.</p>
+  <p>If something's broken, off, or could be better — <a href="https://promptsandcircumstances.substack.com" target="_blank">tell me</a>. I'd rather know.</p>
+  <p style="margin-top:10px;"><a href="https://promptsandcircumstances.substack.com" target="_blank">Prompts &amp; Circumstances</a></p>
+</div>
+
+</div><!-- /page -->
+
+<!-- TOOLTIP -->
+<div class="tip-overlay" id="tip-overlay" onclick="closeTip()"></div>
+<div class="tip-bubble" id="tip-bubble"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// TOOLTIP CONTENT
+// ═══════════════════════════════════════════
+const tips = {
+  title: "I don't know if it's just my algorithm or not, but I seem to see all sorts of veterans complaining and joking about the process of leaving the military. It's a literal meme now that they do not prepare you for life on the outside. I'm trying to help bridge the gap while I learn about AI. I had AI (Claude) help me build this form for you because I wanted to learn and do something useful with what I've learned. Hope you find it useful.",
+
+  callout: "I had the AI (Claude) give suggestions for the subtexts. That's what you see in italics. I'll try to clarify anything that I find oddly worded or confusing. Just hit the info bubble next to what you're reading. What it says here, though — like I said, don't worry about how much you put in here. If you don't feel like putting any of your info in, and you just want to see how it works, then screw around with it — this is an open source project meant to help veterans get a civilian job.",
+
+  contact: "If you don't want to put this stuff in there, or if you want to use the system but don't want to give T-900 — cough — Your Friendly Neighborhood LLM — your information, do this instead: [John Smith], 222-222-2222, savesarahconnor@privacy.com, and Springfield, Shelbyville. Once the LLM gives you the resume, download it and replace your info manually. It's easy.",
+
+  s01: "By AI's nature, it'll do better if it can navigate to a website to read and reference. The language here is friendly, because if you have no idea what you want to do, telling the AI that you have no idea — but that you kinda wanna do this and you like whatever, so maybe that — you get it. If, however, you know exactly what you want to do, tweak this one to your advantage. If you want to get a job in finance, hop on Google and find a job posting for a job in finance. Shoot for the stars. Goldman or Enron or wherever, I don't know. Link that job posting. Say something like 'I want a position at this level or similar, in the same field.' Even better, if you are literally writing this resume for a specific job, drop that link in here. No additional words necessary.",
+
+  'work-why': "Go nuts in this one. Like I said above (if you read it), links are going to give you the most accurate resume. If you have no idea, say that. The italicized prompts are a little 'foo-foo' but they're mostly designed to get you thinking and used to the idea of talking about yourself.",
+
+  'resume-type': "A lot of folks want to go from the military to a federal job. Federal jobs, if you didn't know, have different standards for resume formatting. It's really weird, but the prompt is designed to use the most up-to-date formatting the LLM can find and apply it. Civilian jobs have other unwritten rules about resume writing, and the prompt ensures your LLM will follow those too. Try both if you want, learn the difference.",
+
+  'job-title': "Like the other fields, links help. See the suggestions there? It's totally fine if you type them — that's the whole point of it — but if you can hop on any of the larger firm's websites in your field and find a job posting, copy it and throw it in there. That'll help you immensely. If you can't do that, just Google 'job description for...' and it'll probably find you a site that has a definition. Use that.",
+
+  company: "The subtitle covers it. If you have a specific place in mind, put it here. If not, leave it blank.",
+
+  keywords: "The LLM you're going to use to write your resume can be useful here. You don't need to do any work on this front. Open your LLM and type in the following: 'Provide me with 15 keywords that would appear in a standard job posting for a [your desired job here] who makes [your desired salary here].' It'll give you those, you pull 5-10 that you like, and put them here. Don't overthink it.",
+
+  'why-field': "It's asking because it wants to be able to insert some passionate language in your resume. If you say 'for the money,' that's fine, but you aren't likely to see that comment in your final product. Be a little honest. 'I want to run your warehouse because I've seen firsthand how important logistics are. I would be proud to take my military experience into the civilian sector in order to...' See what I mean?",
+
+  s02: "Again, here — it doesn't matter what you put. If you put your actual info in here, the AI is going to kick out a resume with your real info. If you don't like the idea of... damn, already made that joke. Anyway, same thing. Just make up some placeholder info and fix it when you download. Don't put anything too sarcastic because you might forget and accidentally... I don't even want to guess what you might say. Moving on.",
+
+  branch: "The subtitle covers it.",
+  rank: "The subtitle covers it.",
+  mos: "The subtitle covers it.",
+  units: "The subtitle covers it.",
+  deployments: "The subtitle covers it.",
+  clearance: "The subtitle covers it.",
+
+  s03: "The AI who made the italicized subheadings (Claude) did a pretty good job here, but it's very corporate language, intentionally. I'll translate throughout.",
+
+  'normal-week': "Daily duties, even in garrison. Be creative. Think about the job you want and apply it. If you were a mechanic and you're moving into cybersecurity, don't just talk about working on Humvees that some idiots broke. Those are manual problem solving skills that can translate to the cyber world — lean into it. If you're unsure, again, use that LLM: 'This was my MOS in the Service. Read everything you can about this job and please provide ten suggestions as to how this job may be an advantage in the world of cybersecurity.'",
+
+  'outside-lane': "The AI descriptions are kind of generic here, but don't think about it like 'I was the only person who could fill a radio properly.' More like, 'I was the Arms NCO for X months even though I was a Specialist. I had to keep track of...'",
+
+  brief: "It says 'Include the level,' but what it means is 'Only discuss the level.' If you were an E-5 squad leader, then you were responsible for your five guys. Responsible for range detail for whatever weapons systems. Responsible for all of your squad's equipment. It sounds silly, I know — but even as an E3, you can honestly state in here that you worked with people under you, mentored, whatever. Talk yourself up. If you were reporting to a Battalion Commander every day, you can probably afford a professional resume service, what are you doing here?",
+
+  broken: "Again, Claude's spirit is there but it's slightly too corporate. Think of this question more like 'What was your responsibility within your unit?' We all had one. Some of us were CLS certified. Others were the gas mask accountants. Maybe you worked in the O-room for a while. That's legitimate Microsoft experience in a high-stress environment. Talk about that kind of stuff. Believe me — the stuff that you think is routine will look great to a civilian hiring manager.",
+
+  train: "We all do it at some point or another. If you literally can't think of anything, though, get micro. You didn't teach your buddy how to zero his red dot after your NCO told you three times already. You clarified instructions and effectively communicated complex technical information, leading the person you mentored to increase their scores for promotion points. You didn't cuss at him; you mentored.",
+
+  proud: "I couldn't decide whether or not to change the language on this one... it's almost like an insult? Either way, it's not a bad question. You might be fond of telling people you did nothing but check oil on Humvees and drink on the weekends. There were a few moments though, where it all clicked, and things were awesome, and it was because of you, and you were proud of what you did. Even if it's something as seemingly simple as a PT test. Talk about the applied workout plan, the stated goal, steps you used to achieve.",
+
+  s04: "I'm not going to elaborate past the italics for any of these; they're self explanatory. I will say again, though, if you don't want to get specific, make some stuff up and fix it in post.",
+
+  'direct-super': "The subtitle covers it.",
+  'indirect-super': "The subtitle covers it.",
+  'equipment-value': "The subtitle covers it.",
+  'geo-scope': "The subtitle covers it.",
+  optempo: "The subtitle covers it.",
+  'other-numbers': "The subtitle covers it.",
+
+  s05: "Beware the italics in this section. Claude tried hard, but I'll clarify throughout.",
+
+  'mos-schools': "For the love of God, do not list OSUT on your resume. Unless, I guess, you're applying to a job where you're going to be doing that kind of work. Otherwise, don't focus on schools and training unless they're appropriate. If you are trying to be an X-ray Technician using your military credentials, explain it. You went to X-Ray Technician school to learn how to X-ray babies. I don't know. I'm not trying to be insulting. If that's the case, list the school — and the civilian equivalent. If you aren't sure if there is one, ask the LLM or Google.",
+
+  pme: "This one is not going to be listed on any resumes. If it is, take it out. This section is there so the LLM can extract skills. If you went to BLC, it can run through the BLC manual and describe you as a self-sufficient leader who is comfortable with briefing large groups and independent leadership. See what I'm saying? Don't list anything classified, obviously, but run with that philosophy. It's not asking because it's going to tell your hiring manager that you were good at packing your C Bag.",
+
+  'civ-edu': "If you think you don't have any, you probably have some that at least translate. If your job requires college of any kind, you can find colleges all over the country who will give you most of an Associate's Degree just for your service. Throw your military transcripts into one of those online schools, get in their system. You don't even need to register for classes — but now you are officially pursuing a degree in X.",
+
+  certs: "If you have a good solid plan of action for your career, you know what you should put here. If you don't, I encourage you to list everything you've got. Everything you ever received a certificate of completion for. The Prompt will guide your LLM to know what's relevant and what's not. Plus, if you don't like it, you can always edit it.",
+
+  languages: "If you had a language, put what's pertinent. If you want to explain to your hiring manager at Sterling-Cooper that you can help translate for his meeting with Honda, he doesn't care if you're a 3/4. He cares that you're conversationally fluent. If you're applying for a federal job, they'll know what the numbers mean. Base this on the job you're going for — don't talk technical jargon to people who have no use for it.",
+
+  s06: "I don't know what world exists in which you would list your EIB on a resume, so forgive the italics here. Only list applicable ones. It's great that you got a Silver Star, thank you for your service, but how does killing seventeen Taliban qualify you to run my car wash? If you're applying for a job in Logistics and you were a supply Sgt, list the ARCOM you got for coming in under budget three years in a row. If you were airborne infantry, and your awards are for like... packing parachutes or something... (jokes, people) don't say that. It wasn't about parachutes. It was for developing and implementing a system of efficiency that resulted in the only three years in a row since 1989 that your unit had 0 parachute malfunctions. You developed a training regimen for the soldiers in the packing room and...",
+
+  awards: "The subtitle covers it.",
+  recognized: "The subtitle covers it.",
+
+  'other-recog': "They don't want to hear about the COE you got for being in the field for three months. They want to know that you received Volunteer of the Quarter because serving the community is important to you. They want to know that in your spare time you took introductory courses for Microsoft Security. It doesn't matter that you only did it to get your Platoon Sergeant off your ass about professional development.",
+
+  s07: "No comment on the last one. The AI is asking you this question not because it's going to put on your resume that you're scared of losing TriCare; because it'll extrapolate. Be honest here — the LLM will help translate. 'I'm nervous about swearing too much around civilians.' Your LLM will offer you resources to help.",
+
+  concern: "The subtitle covers it.",
+};
+
+// ═══════════════════════════════════════════
+// TOOLTIP LOGIC
+// ═══════════════════════════════════════════
+document.querySelectorAll('.info-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const key = btn.getAttribute('data-tip');
+    const text = tips[key] || 'Coming soon.';
+    const bubble = document.getElementById('tip-bubble');
+    const overlay = document.getElementById('tip-overlay');
+    bubble.textContent = text;
+    bubble.style.display = 'block';
+    overlay.classList.add('active');
+    const rect = btn.getBoundingClientRect();
+    const bw = Math.min(340, window.innerWidth - 32);
+    let left = rect.left;
+    if (left + bw > window.innerWidth - 16) left = window.innerWidth - bw - 16;
+    if (left < 8) left = 8;
+    bubble.style.maxWidth = bw + 'px';
+    bubble.style.left = left + 'px';
+    requestAnimationFrame(() => {
+      const bh = bubble.offsetHeight;
+      if (window.innerHeight - rect.bottom < bh + 20) {
+        bubble.style.top = (rect.top - bh - 14) + 'px';
+        bubble.classList.add('flip');
+      } else {
+        bubble.style.top = (rect.bottom + 10) + 'px';
+        bubble.classList.remove('flip');
+      }
+    });
+  });
+});
+
+function closeTip() {
+  document.getElementById('tip-overlay').classList.remove('active');
+  document.getElementById('tip-bubble').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════
+// COLLAPSIBLES
+// ═══════════════════════════════════════════
+function toggleCollapsible(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.collapsible-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+  header.classList.toggle('open');
+}
+
+function togglePrompt(toggle) {
+  const body = document.getElementById('prompt-body');
+  const chevron = toggle.querySelector('.prompt-chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+// AUTO-RESIZE
+// ═══════════════════════════════════════════
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+// ═══════════════════════════════════════════
+// REPEATING BLOCKS
+// ═══════════════════════════════════════════
+function addBlock(containerId, templateFn) {
+  const container = document.getElementById(containerId);
+  const n = container.querySelectorAll('.repeat-block').length + 1;
+  const div = document.createElement('div');
+  div.innerHTML = templateFn(n);
+  container.appendChild(div.firstElementChild);
+}
+
+function removeBlock(btn) {
+  const block = btn.closest('.repeat-block');
+  const container = block.parentElement;
+  if (container.querySelectorAll('.repeat-block').length > 1) {
+    block.remove();
+    container.querySelectorAll('.repeat-block').forEach((b, i) => {
+      b.querySelector('.repeat-block-num').textContent = 'Entry ' + (i + 1);
+    });
+  }
+}
+
+function unitsTemplate(n) {
+  return `<div class="repeat-block">
+    <div class="repeat-block-header">
+      <span class="repeat-block-num">Entry ${n}</span>
+      <button class="btn-remove" onclick="removeBlock(this)">Remove</button>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">Unit Name</span><input type="text" placeholder="e.g. 1st SFAB"></div>
+      <div><span class="sub-label">Location</span><input type="text" placeholder="e.g. Fort Liberty, NC"></div>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">From</span><input type="text" placeholder="e.g. 2021"></div>
+      <div><span class="sub-label">To</span><input type="text" placeholder="e.g. 2023"></div>
+    </div>
+  </div>`;
+}
+
+function deployTemplate(n) {
+  return `<div class="repeat-block">
+    <div class="repeat-block-header">
+      <span class="repeat-block-num">Entry ${n}</span>
+      <button class="btn-remove" onclick="removeBlock(this)">Remove</button>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">Theater / Location</span><input type="text" placeholder="e.g. OIR, Iraq"></div>
+      <div><span class="sub-label">Dates</span><input type="text" placeholder="e.g. 2019–2020"></div>
+    </div>
+    <div><span class="sub-label">Mission Description (unclassified)</span>
+    <textarea placeholder="Brief description..." oninput="autoResize(this)"></textarea></div>
+  </div>`;
+}
+
+function certsTemplate(n) {
+  return `<div class="repeat-block">
+    <div class="repeat-block-header">
+      <span class="repeat-block-num">Entry ${n}</span>
+      <button class="btn-remove" onclick="removeBlock(this)">Remove</button>
+    </div>
+    <div class="field-row three">
+      <div><span class="sub-label">Certification Name</span><input type="text" placeholder="e.g. CompTIA Security+"></div>
+      <div><span class="sub-label">Issuing Body</span><input type="text" placeholder="e.g. CompTIA"></div>
+      <div><span class="sub-label">Year</span><input type="text" placeholder="e.g. 2022"></div>
+    </div>
+  </div>`;
+}
+
+function langTemplate(n) {
+  return `<div class="repeat-block">
+    <div class="repeat-block-header">
+      <span class="repeat-block-num">Entry ${n}</span>
+      <button class="btn-remove" onclick="removeBlock(this)">Remove</button>
+    </div>
+    <div class="field-row three">
+      <div><span class="sub-label">Language</span><input type="text" placeholder="e.g. French"></div>
+      <div><span class="sub-label">Proficiency</span><input type="text" placeholder="e.g. Conversational"></div>
+      <div><span class="sub-label">How Used</span><input type="text" placeholder="e.g. Studied at DLI"></div>
+    </div>
+  </div>`;
+}
+
+function awardsTemplate(n) {
+  return `<div class="repeat-block">
+    <div class="repeat-block-header">
+      <span class="repeat-block-num">Entry ${n}</span>
+      <button class="btn-remove" onclick="removeBlock(this)">Remove</button>
+    </div>
+    <div class="field-row two">
+      <div><span class="sub-label">Award Name</span><input type="text" placeholder="e.g. Army Commendation Medal"></div>
+      <div><span class="sub-label">Date / Context</span><input type="text" placeholder="e.g. 2020, OIF deployment"></div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// COPY TO CLIPBOARD
+// ═══════════════════════════════════════════
+function copyToClipboard(btn) {
+  let out = '';
+
+  // Prompt
+  out += '=== THE PROMPT ===\n\n';
+  document.querySelectorAll('#prompt-body p').forEach(p => {
+    out += p.innerText.trim() + '\n\n';
+  });
+
+  // Contact info
+  const vals = {
+    first: document.getElementById('c-first').value.trim(),
+    last:  document.getElementById('c-last').value.trim(),
+    phone: document.getElementById('c-phone').value.trim(),
+    email: document.getElementById('c-email').value.trim(),
+    city:  document.getElementById('c-city').value.trim(),
+    state: document.getElementById('c-state').value.trim(),
+    li:    document.getElementById('c-linkedin').value.trim(),
+  };
+  if (Object.values(vals).some(v => v)) {
+    out += '=== CONTACT INFORMATION ===\n';
+    if (vals.first || vals.last) out += 'Name: ' + [vals.first, vals.last].filter(Boolean).join(' ') + '\n';
+    if (vals.phone) out += 'Phone: ' + vals.phone + '\n';
+    if (vals.email) out += 'Email: ' + vals.email + '\n';
+    if (vals.city || vals.state) out += 'Location: ' + [vals.city, vals.state].filter(Boolean).join(', ') + '\n';
+    if (vals.li)  out += 'LinkedIn: ' + vals.li + '\n';
+    out += '\n';
+  }
+
+  // Sections
+  document.querySelectorAll('#copy-zone .section-header').forEach(header => {
+    const num   = header.querySelector('.section-num').innerText;
+    const title = header.querySelector('.section-title').innerText;
+    out += `=== ${num} — ${title.toUpperCase()} ===\n\n`;
+
+    let el = header.nextElementSibling;
+    while (el && !el.classList.contains('section-header')) {
+
+      if (el.classList.contains('field')) {
+        const labelEl = el.querySelector('.field-label');
+        if (labelEl) {
+          const label = labelEl.childNodes[0].textContent.trim();
+
+          // Resume type
+          const rtWrap = el.querySelector('.resume-type-wrap');
+          if (rtWrap) {
+            const kept = rtWrap.querySelectorAll('.resume-type-opt:not(.deleted)');
+            if (kept.length) {
+              out += label + ':\n';
+              kept.forEach(o => out += '  ' + o.querySelector('.resume-type-label').innerText + '\n');
+              out += '\n';
+            }
+            el = el.nextElementSibling; continue;
+          }
+
+          // Repeat blocks
+          const rBlocks = el.querySelectorAll('.repeat-block');
+          if (rBlocks.length) {
+            out += label + ':\n';
+            rBlocks.forEach((block, i) => {
+              out += '  Entry ' + (i + 1) + ':\n';
+              block.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(inp => {
+                const val = inp.value.trim();
+                if (val) {
+                  const sl = inp.closest('div') && inp.closest('div').querySelector('.sub-label');
+                  out += '    ' + (sl ? sl.textContent.trim() + ': ' : '') + val + '\n';
+                }
+              });
+            });
+            out += '\n';
+            el = el.nextElementSibling; continue;
+          }
+
+          // Single input
+          const inp = el.querySelector('input[type="text"], input[type="email"], input[type="tel"]');
+          const ta  = el.querySelector('textarea');
+          if (inp && inp.value.trim()) out += label + ':\n' + inp.value.trim() + '\n\n';
+          else if (ta && ta.value.trim()) out += label + ':\n' + ta.value.trim() + '\n\n';
+        }
+      }
+
+      // Clearance radio
+      if (el.classList.contains('clearance-opts') || (el.querySelector && el.querySelector('.clearance-opts'))) {
+        const checked = document.querySelector('input[name="clearance"]:checked');
+        if (checked) out += 'Clearance placeholder: ' + checked.value + '\n\n';
+      }
+
+      el = el.nextElementSibling;
+    }
+  });
+
+  navigator.clipboard.writeText(out.trim()).then(() => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓&nbsp; Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2200);
+  }).catch(() => {
+    alert('Automatic copy failed. Please use Ctrl+A then Ctrl+C to copy manually.');
+  });
+}
+</script>
+</body>
+</html>
